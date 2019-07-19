@@ -1,0 +1,11 @@
+{
+  "name": "website-screenshot-app",
+  "version": "1.0.0",
+  "description": "Web app that takes screenshot fo the provided website",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mateusz Lesiuk",
+  "license": "ISC"
+}
