@@ -4,12 +4,15 @@
   "description": "Web app that takes screenshot fo the provided website",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "server": "nodemon serve.js",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Mateusz Lesiuk",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^4.1.1",
     "express": "^4.17.1",
     "nodemon": "^1.19.1",
     "puppeteer": "^1.18.1"
