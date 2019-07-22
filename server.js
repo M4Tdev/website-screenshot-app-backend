@@ -2,6 +2,7 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
 const { URL } = require('url');
+const path = require('path');
 
 const app = express();
 
@@ -37,6 +38,14 @@ const getScreenshot = async url => {
   return strippedUrl;
 };
 
+app.use('/download/:fileName', (req, res) => {
+  const { fileName } = req.params;
+
+  const filePath = path.join(__dirname, 'screenshots', `${fileName}.png`);
+
+  res.download(filePath);
+});
+
 app.use('/:url', async (req, res) => {
   const { url } = req.params;
 
@@ -44,7 +53,10 @@ app.use('/:url', async (req, res) => {
 
   const downloadName = await getScreenshot(decodedUrl);
 
-  res.send({ status: 'done', downloadUrl: `${req.headers.referer}screenshots/${downloadName}` });
+  res.send({
+    status: 'done',
+    downloadUrl: `<a href="${`http://${req.headers.host}/download/${downloadName}`}">Go to Download</a>`,
+  });
 });
 
 const PORT = process.env.PORT || 5000;
