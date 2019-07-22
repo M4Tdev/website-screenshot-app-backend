@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer');
 const cors = require('cors');
 const { URL } = require('url');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 
@@ -26,6 +27,12 @@ const getScreenshot = async url => {
     defaultViewport: { width: 1920, height: 1080 },
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
+
+  const ssFolder = await fs.existsSync('./screenshots');
+
+  if (!ssFolder) {
+    await fs.mkdirSync('./screenshots');
+  }
 
   const page = await browser.newPage();
 
