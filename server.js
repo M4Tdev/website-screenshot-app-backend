@@ -63,8 +63,6 @@ app.use('/download/:fileName', (req, res) => {
 app.use('/url/:url', async (req, res) => {
   const { url } = req.params;
 
-  console.log('URL route');
-
   const decodedUrl = decodeURIComponent(url);
 
   const downloadName = await getScreenshot(decodedUrl);
