@@ -42,8 +42,7 @@ const getScreenshot = async url => {
 
   const strippedUrl = stripHTTP(validatedUrl);
 
-  await page.goto(validatedUrl);
-  await page.waitFor(1000);
+  await page.goto(validatedUrl, { waitUntil: 'networkidle0' });
 
   const screenshotPath = path.join(__dirname, 'screenshots', `${strippedUrl}.png`);
 
@@ -61,7 +60,7 @@ app.use('/download/:fileName', (req, res) => {
   res.download(filePath);
 });
 
-app.use('/:url', async (req, res) => {
+app.use('/url/:url', async (req, res) => {
   const { url } = req.params;
 
   console.log('URL route');
