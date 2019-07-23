@@ -28,10 +28,12 @@ const getScreenshot = async url => {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
-  const ssFolder = await fs.existsSync('./screenshots');
+  const screenshotsPath = path.join(__dirname, 'screenshots');
+
+  const ssFolder = await fs.existsSync(screenshotsPath);
 
   if (!ssFolder) {
-    await fs.mkdirSync('./screenshots');
+    await fs.mkdirSync(screenshotsPath);
   }
 
   const page = await browser.newPage();
@@ -42,7 +44,10 @@ const getScreenshot = async url => {
 
   await page.goto(validatedUrl);
   await page.waitFor(1000);
-  await page.screenshot({ path: `./screenshots/${strippedUrl}.png` });
+
+  const screenshotPath = path.join(__dirname, 'screenshots', `${strippedUrl}.png`);
+
+  await page.screenshot({ path: screenshotPath });
   await browser.close();
 
   return strippedUrl;
@@ -58,6 +63,8 @@ app.use('/download/:fileName', (req, res) => {
 
 app.use('/:url', async (req, res) => {
   const { url } = req.params;
+
+  console.log('URL route');
 
   const decodedUrl = decodeURIComponent(url);
 
